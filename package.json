@@ -1,0 +1,14 @@
+{
+  "name": "sticky-notes",
+  "version": "1.0.0",
+  "description": "planner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keshav Nandhan",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/cli": "^9.0.3"
+  }
+}

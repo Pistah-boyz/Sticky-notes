@@ -1,0 +1,86 @@
+<div class='header'>
+  <h1>Sticky Notes</h1>
+  <button class="btn btn-danger logoutLblPos" (click)="signOut()">Logout</button>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 customBorder">
+
+      <div>
+        <h2>Add Notes</h2>
+      </div>
+      <div>
+        <form [formGroup]="myForm" (ngSubmit)="submitForm()" class="form">
+          <div class="form-group"
+            [ngClass]="{'has-error':myForm.get('title').errors?.required && (myForm.get('title').touched||myForm.get('title').dirty)}">
+            <label for="FormControlInput1">Enter the Title</label>
+            <input id="FormControlInput1" class="form-control" placeholder="Enter the Title" formControlName="title">
+            <div *ngIf="myForm.get('title').errors?.required && myForm.get('title').touched" class="alert alert-info"
+              role="alert">
+              You must provide a <strong>title</strong>
+            </div>
+          </div>
+
+          <div class="form-group"
+            [ngClass]="{'has-error':myForm.get('description').errors && (myForm.get('description').touched||myForm.get('description').dirty)}">
+            <label for="FormControlInput2">Enter the description</label>
+            <input id="FormControlInput2" class="form-control" placeholder="Enter the description"
+              formControlName="description">
+            <div *ngIf="myForm.get('description').errors?.required && myForm.get('description').touched"
+              class="alert alert-info" role="alert">
+              You must provide a <strong>description</strong>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="FormControlInput3">Choose an option</label>
+            <select [(value)]="importance" id="FormControlInput3" class="form-control" formControlName="importance">
+              <option disabled selected>Select any option</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <!-- Date picker -->
+
+          <label for="FormControlInput3">Select Date</label>
+          <input type="date" name="dateofbirth" id="dateofbirth" value="" (dateChange)="date($event)">
+
+          <!-- Submit -->
+          <div class="button-wrapper pt-3">
+            <button mat-raised-button color="primary" class="button" type="submit">Add Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+
+
+      <button class='.d-block .d-md-none' routerLink="/addtask" routerLinkActive="active" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">Add Task</span>
+      </button>
+      <div class="row mt-5 card-container  col-md-6" *ngIf="(taskitems | async)?.length;else warning">
+        <div class=" mb-3 customWidth" *ngFor="let obj of taskitems | async">
+          <div class="card text-white mb-3" [ngClass]="{
+              'bg-success':obj.importance === 'low',
+              'bg-warning':obj.importance === 'medium',
+              'bg-danger':obj.importance === 'high'}">
+            <div class="card-header cardTitle">{{obj.title}}
+              <div class='pull-right'><button mat-button (click)="deleteItem(obj)">X</button></div>
+            </div>
+            <div class="card-body bodyCustom">
+              <p class="card-title">{{obj.description}}</p>
+              <p class="dateDisplay">{{obj.duedate.toDate() | date:'dd/MM/yyyy'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #warning>
+        <div class="alert alert-info" role="alert">
+          <span><strong>No tasks were added for your account</strong></span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

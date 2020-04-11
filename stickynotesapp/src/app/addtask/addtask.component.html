@@ -1,0 +1,42 @@
+<h1>Sticky Notes</h1>
+<div>
+  <h3>Add Task to Notes</h3>
+</div>
+<div>
+  <form [formGroup]="myForm" (ngSubmit)="submitForm()" class="form">   
+    <div class="form-group" [ngClass]="{'has-error':myForm.get('title').errors?.required && (myForm.get('title').touched||myForm.get('title').dirty)}">
+      <label for="FormControlInput1">Enter the Title</label>
+       <input id="FormControlInput1" class="form-control" placeholder="Enter the Title" formControlName="title">
+       <div *ngIf="myForm.get('title').errors?.required && myForm.get('title').touched" class="alert alert-info" role="alert"  >
+          You must provide a <strong>title</strong>
+       </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error':myForm.get('description').errors && (myForm.get('description').touched||myForm.get('description').dirty)}">
+        <label for="FormControlInput2">Enter the description</label>
+         <input id="FormControlInput2" class="form-control" placeholder="Enter the description" formControlName="description">
+         <div *ngIf="myForm.get('description').errors?.required && myForm.get('description').touched" class="alert alert-info" role="alert"  >
+            You must provide a <strong>description</strong>
+         </div>
+    </div>
+
+    <div class="form-group">
+            <label for="FormControlInput3">Choose an option</label>
+            <select [(value)]="importance" id="FormControlInput3" class="form-control" formControlName="importance">
+              <option disabled selected>Select any option</option>      
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+    </div>
+        <!-- Date picker -->
+        
+        
+        <input  type="date" name="dateofbirth" id="dateofbirth" value="" (dateChange)="date($event)">
+        
+        <!-- Submit -->
+        <div class="button-wrapper">
+          <button mat-raised-button color="primary" class="button" type="submit">Add Task</button>
+        </div>
+      </form>
+</div>

@@ -5,6 +5,7 @@ import { TaskserviceService } from '../taskservice.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { isNull } from 'util';
 
 @Component({
   selector: 'app-taskscards',
@@ -40,9 +41,10 @@ export class TaskscardsComponent implements OnInit {
 
   reactiveForm() {
     this.myForm = this.fb.group({
+      taskId:[''],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      importance: [''],
+      importance: ['',[Validators.required]],
       duedate: ['', [Validators.required]]
     })
   }
@@ -63,17 +65,43 @@ export class TaskscardsComponent implements OnInit {
   }
   submitForm() {
     console.log(this.myForm.value);
-    this.serviceobj.addTask(this.myForm.value);
+    this.serviceobj.updatetask(this.myForm.value);
+    // if(this.myForm.value.taskId!=null)
+    // {
+    //   this.serviceobj.updatetask(this.myForm.value);
+    // }
+    // else{
+    //   this.serviceobj.addTask(this.myForm.value);
+    // }
     console.log("tasks added");
+    this.myForm.reset();
     this.router.navigate(['/tasks']);
   }
   deleteItem(task) {
     //Get the task id
-    console.log(task);
-    let taskId = task.id;
-    console.log("deleted");
+    console.log(task.taskId);
+    
     //delete the task 
     this.serviceobj.deleteTask(task);
     console.log("deleted");
   } //deleteTask
+  
+  convertDate(str) {
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+
+  editform(task){
+    let taskdate=this.convertDate(task.duedate.toString());
+    this.myForm = this.fb.group({
+      taskId:[task.taskId],
+      title: [task.title],
+      description: [task.description],
+      importance: [task.importance],
+      duedate: [taskdate]
+    });
+    console.log(this.myForm.value);
+  }
 }

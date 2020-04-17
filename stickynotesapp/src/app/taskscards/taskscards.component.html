@@ -42,13 +42,14 @@
             </select>
           </div>
           <!-- Date picker -->
-
-          <label for="FormControlInput3">Select Date</label>
-          <input type="date" name="dateofbirth" id="dateofbirth" value="" (dateChange)="date($event)">
+          <input type="hidden" name="taskId" formControlName="taskId"/>
+   
+          <label for="dateofbirth">Select Date</label>
+          <input type="date" formControlName="duedate" name="dateofbirth" id="dateofbirth" value="" (dateChange)="date($event)">
 
           <!-- Submit -->
           <div class="button-wrapper pt-3">
-            <button mat-raised-button color="primary" class="button" type="submit">Add Task</button>
+            <button mat-raised-button color="primary" class="button" type="submit">Save Task</button>
           </div>
         </form>
       </div>
@@ -60,18 +61,21 @@
       <button class='.d-block .d-md-none' routerLink="/addtask" routerLinkActive="active" type="button" class="btn btn-default">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">Add Task</span>
       </button>
-      <div class="row mt-5 card-container  col-md-6" *ngIf="(taskitems | async)?.length;else warning">
-        <div class=" mb-3 customWidth" *ngFor="let obj of taskitems | async">
+      <div class="row mt-5 card-container" *ngIf="(taskitems | async)?.length;else warning">
+        <div class=" col-md-6 mb-3 customWidth" *ngFor="let obj of taskitems | async">
           <div class="card text-white mb-3" [ngClass]="{
               'bg-success':obj.importance === 'low',
               'bg-warning':obj.importance === 'medium',
               'bg-danger':obj.importance === 'high'}">
             <div class="card-header cardTitle">{{obj.title}}
-              <div class='pull-right'><button mat-button (click)="deleteItem(obj)">X</button></div>
+              <button type="button" class=" pull-right close" aria-label="Close" (click)="deleteItem(obj)">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="card-body bodyCustom">
               <p class="card-title">{{obj.description}}</p>
-              <p class="dateDisplay">{{obj.duedate.toDate() | date:'dd/MM/yyyy'}}</p>
+              <p class="dateDisplay">{{obj.duedate | date:'dd/MM/yyyy'}}</p>
+              <button type="button" class="btn btn-light editbtn" (click)="editform(obj)">Edit</button>
             </div>
           </div>
         </div>

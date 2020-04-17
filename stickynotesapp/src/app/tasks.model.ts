@@ -1,5 +1,5 @@
 export interface tasks{
-    id:string;
+    taskId:string;
     title:string;
     description:string;
     duedate:Date;

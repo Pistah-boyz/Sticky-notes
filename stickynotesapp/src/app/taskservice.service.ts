@@ -26,7 +26,7 @@ export class TaskserviceService {
     this.tasks=this.taskstodo.snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as tasks;
-        data.id = a.payload.doc.id;
+        data.taskId = a.payload.doc.id;
         return data;
       });
     }));
@@ -47,13 +47,27 @@ export class TaskserviceService {
   }
 
   updatetask(taskitem:tasks){
-    delete taskitem.id;
-    return this.af.doc('taskstodo/'+taskitem.id).update(taskitem);
+    if(taskitem.taskId==""){
+      this.taskstodo.add(taskitem);
+    }
+    else{
+    console.log(taskitem.taskId);
+    //this.taskstodo.doc(taskitem.taskId).update(taskitem);
+    this.taskstodo.doc(taskitem.taskId).set({ 
+      //taskId:taskitem.taskId,
+      title:taskitem.title,
+      description:taskitem.description,
+      importance:taskitem.importance,
+      duedate:taskitem.duedate
+    },{merge:true});
+  }
+    //this.af.doc('taskstodo/'+taskitem.taskId).update(taskitem);
   }
 
   deleteTask(taskitem:tasks) {
     //Get the task id
-    this.af.doc('taskstodo/'+taskitem.id).delete();
+    this.taskstodo.doc(taskitem.taskId).delete();
+    //this.af.doc('taskstodo/'+taskitem.taskId).delete();
     //Delete the document
    } 
  

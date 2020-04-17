@@ -17,13 +17,12 @@
 
     .card-container{
             width:100%;
-            text-align:center;
             padding:5px 5px 5px 5px;
             float:left;
             text-align:left;
         }
         .customWidth{
-            width:100%;
+            width:85%;
         }
         .card{
             width:100%;
@@ -32,7 +31,7 @@
         }
         .card-header {
             width:100%;
-            padding: .25rem 1rem;
+            padding: .25rem 2rem;
         }
         .titleCustom{
             vertical-align: middle;
@@ -55,11 +54,19 @@
         font-family: cursive;
     }
     .dateDisplay {
+    font-family: sans-serif;
     position: absolute;
-    bottom: 0px;
-    right: 7px;
-    padding: 0;
-    font-size: 14px;
-    color: #80808094;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+    font-size: 16px;
     margin-bottom: 0;
+    }
+    .editbtn
+    {
+    bottom: 5px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 50%;
+        
     }
